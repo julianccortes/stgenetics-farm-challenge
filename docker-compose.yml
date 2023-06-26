@@ -1,0 +1,19 @@
+version: '3.4'
+
+services:
+  st-genetics-farm-db:
+    container_name: "st-genetics-farm-db"
+    image: "julianccortes/st-genetics-farm-db:1.5"
+    environment:
+      - "MSSQL_SA_PASSWORD=QwErTy9317/*"
+      - "TZ=America/Bogota"
+      - "ACCEPT_EULA=Y"  
+    ports:
+      - "21433:1433"
+    networks:
+      - stgeneticsnet  
+ 
+networks:
+  stgeneticsnet:
+    driver: bridge    
+
