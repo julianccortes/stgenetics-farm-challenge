@@ -54,5 +54,10 @@
         {
             return await _dbContext.Set<T>().FindAsync(id);
         }
+
+        public async Task<int> CountAsync()
+        {
+            return await _dbContext.Set<T>().CountAsync();            
+        }
     }
 }

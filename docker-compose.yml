@@ -3,9 +3,9 @@ version: '3.4'
 services:
   st-genetics-farm-db:
     container_name: "st-genetics-farm-db"
-    image: "julianccortes/st-genetics-farm-db:1.5"
+    image: "julianccortes/stgenetics-farm-db:1.0"
     environment:
-      - "MSSQL_SA_PASSWORD=QwErTy9317/*"
+      - "MSSQL_SA_PASSWORD=Qwerty123#"
       - "TZ=America/Bogota"
       - "ACCEPT_EULA=Y"  
     ports:

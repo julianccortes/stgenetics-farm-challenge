@@ -1,10 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using STgenetics.Farm.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace STgenetics.Farm.Infrastructure.Context
 {
@@ -15,6 +11,19 @@ namespace STgenetics.Farm.Infrastructure.Context
             ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
 
-        public DbSet<Animal> Animals { get; set; }
+        public DbSet<Animal> Animal { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            foreach (var property in builder.Model.GetEntityTypes()
+            .SelectMany(t => t.GetProperties())
+            .Where(p => p.ClrType == typeof(decimal) || p.ClrType == typeof(decimal?)))
+            {
+                property.SetColumnType("decimal(18,6)");
+            }
+
+            builder.Entity<Animal>().Property(e => e.Id).Metadata.SetBeforeSaveBehavior(PropertySaveBehavior.Ignore);
+            base.OnModelCreating(builder);
+        }
     }
 }

@@ -9,15 +9,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "client", "client", "{EAE230
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "server", "server", "{B21FD52F-A8A5-4FA2-ADF4-8E40086E133A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "STgenetics.Farm.Domain", "src\server\STgenetics.Farm.Domain\STgenetics.Farm.Domain.csproj", "{E25810C5-F07D-4045-A3E5-82014869EF65}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "STgenetics.Farm.Domain", "src\server\STgenetics.Farm.Domain\STgenetics.Farm.Domain.csproj", "{E25810C5-F07D-4045-A3E5-82014869EF65}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "STgenetics.Farm.Infrastructure", "src\server\STgenetics.Farm.Infrastructure\STgenetics.Farm.Infrastructure.csproj", "{83DCCF6C-9B80-4F64-BC8C-6C10910304F5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "STgenetics.Farm.Infrastructure", "src\server\STgenetics.Farm.Infrastructure\STgenetics.Farm.Infrastructure.csproj", "{83DCCF6C-9B80-4F64-BC8C-6C10910304F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "STgenetics.Farm.WebApi", "src\server\STgenetics.Farm.WebApi\STgenetics.Farm.WebApi.csproj", "{38BD8188-E639-421E-A78F-3B9C0C583908}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "STgenetics.Farm.WebApi", "src\server\STgenetics.Farm.WebApi\STgenetics.Farm.WebApi.csproj", "{38BD8188-E639-421E-A78F-3B9C0C583908}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "STgenetics.Farm.Client", "src\client\STgenetics.Farm.Client\STgenetics.Farm.Client.csproj", "{866C5106-6A1F-47D9-A166-4DC29451EF49}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "STgenetics.Farm.Client", "src\client\STgenetics.Farm.Client\STgenetics.Farm.Client.csproj", "{866C5106-6A1F-47D9-A166-4DC29451EF49}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "STgenetics.Farm.Application", "src\server\STgenetics.Farm.Application\STgenetics.Farm.Application.csproj", "{4CABFDA1-9183-4A80-9339-34BB64B9284F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "STgenetics.Farm.Application", "src\server\STgenetics.Farm.Application\STgenetics.Farm.Application.csproj", "{4CABFDA1-9183-4A80-9339-34BB64B9284F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

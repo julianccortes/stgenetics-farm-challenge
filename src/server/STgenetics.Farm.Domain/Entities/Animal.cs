@@ -16,7 +16,7 @@ namespace STgenetics.Farm.Domain.Entities
 
         public DateOnly Birthday { get; set; }
 
-        public string? Sex { get; set; }
+        public string? Gender { get; set; }
 
         public decimal Price { get; set; }
 

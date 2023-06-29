@@ -1,1 +1,0 @@
-/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P QwErTy9317/* -d master -i ScriptDb.sql -f o:65001

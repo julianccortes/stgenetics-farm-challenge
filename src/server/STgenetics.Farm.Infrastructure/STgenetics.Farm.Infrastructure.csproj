@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\STgenetics.Farm.Application\STgenetics.Farm.Application.csproj" />
     <ProjectReference Include="..\STgenetics.Farm.Domain\STgenetics.Farm.Domain.csproj" />
   </ItemGroup>
 

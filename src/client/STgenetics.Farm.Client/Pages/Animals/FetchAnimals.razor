@@ -1,0 +1,55 @@
+﻿@page "/animals"
+@using MudBlazor;
+@using STgenetics.Farm.Application.Dtos.Common.Paginated;
+@using STgenetics.Farm.Client.Models.Response;
+@using STgenetics.Farm.Client.Repository;
+
+<h1>Animals</h1>
+
+<MudTable ServerData="@(new Func<TableState, Task<TableData<AnimalResponse>>>(GetServerData))"
+		  Hover="true" Breakpoint="Breakpoint.Sm"
+		  @ref="animalsTable" RowsPerPage="10">
+	<ToolBarContent>
+		<MudText Typo="Typo.h6">Animals</MudText>
+		<MudSpacer />
+	</ToolBarContent>
+	<HeaderContent>
+		<MudTh>Name</MudTh>
+		<MudTh>Gender</MudTh>
+		<MudTh>Price</MudTh>
+	</HeaderContent>
+	<RowTemplate>
+		<MudTd DataLabel="Name">@context.Name</MudTd>
+		<MudTd DataLabel="Gender">@context.Gender</MudTd>
+		<MudTd DataLabel="Price">$@context.Price</MudTd>
+	</RowTemplate>
+	<PagerContent>
+		<MudTablePager PageSizeOptions="@pageSizeOption" RowsPerPageString="Products per page" />
+	</PagerContent>
+</MudTable>
+
+
+@code {
+
+    private MudTable<AnimalResponse> animalsTable;
+    private SearchParameters searchParameters = new SearchParameters();
+    private readonly int[] pageSizeOption = { 4, 6, 10 };
+
+    [Inject]
+    public IAnimalsRepository animalsRepository { get; set; }
+
+    private async Task<TableData<AnimalResponse>> GetServerData(TableState state)
+    {
+        searchParameters.PageSize = state.PageSize;
+        searchParameters.PageNumber = state.Page + 1;
+
+        var response = await animalsRepository.GetAnimals(searchParameters);
+
+        return new TableData<AnimalResponse>
+            {
+                Items = response.Items,
+                TotalItems = response.TotalCount
+            };
+    }
+
+}
