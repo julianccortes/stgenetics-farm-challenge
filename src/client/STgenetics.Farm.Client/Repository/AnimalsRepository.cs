@@ -1,14 +1,7 @@
 ﻿using Microsoft.AspNetCore.WebUtilities;
 using STgenetics.Farm.Application.Dtos.Common.Paginated;
 using STgenetics.Farm.Client.Models.Response;
-using System;
-using System.Net.Http.Headers;
-using System.Net.Http;
-using System.Net.Http.Json;
-using System.Reflection.PortableExecutable;
 using System.Text.Json;
-using System.Text.Json.Nodes;
-using static System.Net.WebRequestMethods;
 
 namespace STgenetics.Farm.Client.Repository
 {
