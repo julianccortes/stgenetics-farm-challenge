@@ -7,25 +7,32 @@
 <h1>Animals</h1>
 
 <MudTable ServerData="@(new Func<TableState, Task<TableData<AnimalResponse>>>(GetServerData))"
-		  Hover="true" Breakpoint="Breakpoint.Sm"
-		  @ref="animalsTable" RowsPerPage="10">
-	<ToolBarContent>
-		<MudText Typo="Typo.h6">Animals</MudText>
-		<MudSpacer />
-	</ToolBarContent>
-	<HeaderContent>
-		<MudTh>Name</MudTh>
-		<MudTh>Gender</MudTh>
-		<MudTh>Price</MudTh>
-	</HeaderContent>
-	<RowTemplate>
-		<MudTd DataLabel="Name">@context.Name</MudTd>
-		<MudTd DataLabel="Gender">@context.Gender</MudTd>
-		<MudTd DataLabel="Price">$@context.Price</MudTd>
-	</RowTemplate>
-	<PagerContent>
-		<MudTablePager PageSizeOptions="@pageSizeOption" RowsPerPageString="Products per page" />
-	</PagerContent>
+          Hover="true" Breakpoint="Breakpoint.Sm" @ref="animalsTable" RowsPerPage="10">
+    <ToolBarContent>
+        <MudText Typo="Typo.h6">Animals</MudText>
+        <MudSpacer></MudSpacer>
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh><MudTableSortLabel SortLabel="id" T="AnimalResponse">Id</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortLabel="name" T="AnimalResponse">Name</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortLabel="breed" T="AnimalResponse">Breed</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortLabel="price" T="AnimalResponse">Price</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortLabel="birthday" T="AnimalResponse">Birthday</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortLabel="isActive" T="AnimalResponse">IsActive</MudTableSortLabel></MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Id">@context.Id</MudTd>
+        <MudTd DataLabel="Name">@context.Name</MudTd>
+        <MudTd DataLabel="Breed">@context.Breed</MudTd>
+        <MudTd DataLabel="Price">$@context.Price</MudTd>
+        <MudTd DataLabel="Birthday">@context.Birthday.ToString("dd-MM-yyyy")</MudTd>
+        <MudTd DataLabel="IsActive">@context.IsActive?"Yes":"No"</MudTd>
+
+
+    </RowTemplate>
+    <PagerContent>
+        <MudTablePager PageSizeOptions="@pageSizeOption" RowsPerPageString="Animals per page" />
+    </PagerContent>
 </MudTable>
 
 
@@ -33,7 +40,7 @@
 
     private MudTable<AnimalResponse> animalsTable;
     private SearchParameters searchParameters = new SearchParameters();
-    private readonly int[] pageSizeOption = { 4, 6, 10 };
+    private readonly int[] pageSizeOption = { 10, 20, 50 };
 
     [Inject]
     public IAnimalsRepository animalsRepository { get; set; }
@@ -48,7 +55,7 @@
         return new TableData<AnimalResponse>
             {
                 Items = response.Items,
-                TotalItems = response.TotalCount
+                TotalItems = response.MetaData.TotalCount
             };
     }
 

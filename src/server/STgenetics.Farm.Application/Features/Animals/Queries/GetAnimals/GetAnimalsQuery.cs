@@ -4,7 +4,7 @@
     using STgenetics.Farm.Application.Dtos.Animal.Response;
     using STgenetics.Farm.Application.Dtos.Common.Paginated;
 
-    public class GetAnimalsQuery : SearchParameters, IRequest<PagedResponse<AnimalResponse>>
+    public class GetAnimalsQuery : SearchParameters, IRequest<PagedList<AnimalResponse>>
     {
 
     }

@@ -1,6 +1,6 @@
-﻿namespace STgenetics.Farm.Application.Dtos.Common.Paginated
+﻿namespace STgenetics.Farm.Client.Models.Response
 {
-    public class PagedMetadata
+    public class MetaData
     {
         public int CurrentPage { get; set; }
         public int TotalPages { get; set; }

@@ -5,6 +5,6 @@ namespace STgenetics.Farm.Client.Repository
 {
     public interface IAnimalsRepository
     {
-        Task<PagedResponse<AnimalResponse>> GetAnimals(SearchParameters searchParameter);
+        Task<PagingResponse<AnimalResponse>> GetAnimals(SearchParameters searchParameter);
     }
 }

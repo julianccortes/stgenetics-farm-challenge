@@ -1,5 +1,7 @@
-﻿namespace STgenetics.Farm.Application.Dtos.Common.Paginated
-{
+﻿using System.Text.Json.Serialization;
+
+namespace STgenetics.Farm.Application.Dtos.Common.Paginated
+{    
     public class PagedMetadata
     {
         public int CurrentPage { get; set; }

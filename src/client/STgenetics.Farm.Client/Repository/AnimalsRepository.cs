@@ -1,7 +1,14 @@
 ﻿using Microsoft.AspNetCore.WebUtilities;
 using STgenetics.Farm.Application.Dtos.Common.Paginated;
 using STgenetics.Farm.Client.Models.Response;
+using System;
+using System.Net.Http.Headers;
+using System.Net.Http;
+using System.Net.Http.Json;
+using System.Reflection.PortableExecutable;
 using System.Text.Json;
+using System.Text.Json.Nodes;
+using static System.Net.WebRequestMethods;
 
 namespace STgenetics.Farm.Client.Repository
 {
@@ -10,27 +17,31 @@ namespace STgenetics.Farm.Client.Repository
         private readonly HttpClient _client;
         private readonly JsonSerializerOptions _options;
 
-        public AnimalsRepository(HttpClient client, JsonSerializerOptions options)
+        public AnimalsRepository(HttpClient client)
         {
             _client = client;
-            _options = options;
+            _options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
         }
-        public async Task<PagedResponse<AnimalResponse>> GetAnimals(SearchParameters searchParameter)
+        public async Task<PagingResponse<AnimalResponse>> GetAnimals(SearchParameters searchParameter)
         {
             var queryStringParam = new Dictionary<string, string>
             {
                 ["pageNumber"] = searchParameter.PageNumber.ToString(),
                 ["pageSize"] = searchParameter.PageSize.ToString()
             };
-            
-            using var response = await _client.GetAsync(QueryHelpers.AddQueryString("animals", queryStringParam));
+
+            using var response = await _client.GetAsync(QueryHelpers.AddQueryString("/api/animals", queryStringParam)); 
             response.EnsureSuccessStatusCode();
 
             var stream = await response.Content.ReadAsStreamAsync();
 
-            var pagingResponse = await JsonSerializer.DeserializeAsync<PagedResponse<AnimalResponse>>(stream, _options);
+            var metaData = JsonSerializer.Deserialize<MetaData>(response.Headers.GetValues("X-Pagination").First(), _options);
 
-            return pagingResponse;
+            return new PagingResponse<AnimalResponse>
+            {
+                Items = await JsonSerializer.DeserializeAsync<List<AnimalResponse>>(stream, _options),
+                MetaData = metaData
+            };
         }
     }
 }

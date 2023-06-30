@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using STgenetics.Farm.Application.Dtos.Animal.Response;
 using STgenetics.Farm.Application.Dtos.Common.Created;
 using STgenetics.Farm.Application.Dtos.Common.Errors;
@@ -8,7 +8,6 @@ using STgenetics.Farm.Application.Features.Animals.Commands.DeleteAnimal;
 using STgenetics.Farm.Application.Features.Animals.Commands.UpdateAnimal;
 using STgenetics.Farm.Application.Features.Animals.Queries.GetAnimalById;
 using STgenetics.Farm.Application.Features.Animals.Queries.GetAnimals;
-using System.Reflection.Metadata.Ecma335;
 
 namespace STgenetics.Farm.WebApi.Controllers
 {
@@ -19,7 +18,13 @@ namespace STgenetics.Farm.WebApi.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorResponse))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ErrorResponse))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ErrorResponse))]
-        public async Task<IActionResult> GetAllAnimals([FromQuery] GetAnimalsQuery parameters) => Ok(await Mediator.Send(parameters));
+        public async Task<IActionResult> GetAllAnimals([FromQuery] GetAnimalsQuery parameters) {
+            var result = await Mediator.Send(parameters);
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(result.MetaData));
+            
+            return Ok(result);
+        }
+        
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AnimalResponse))]

@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace STgenetics.Farm.Application.Features.Animals.Queries.GetAnimals
 {
-    internal class GetAnimalsHandler : IRequestHandler<GetAnimalsQuery, PagedResponse<AnimalResponse>>
+    internal class GetAnimalsHandler : IRequestHandler<GetAnimalsQuery, PagedList<AnimalResponse>>
     {
         private readonly IAnimalsRepositoryAsync _animalsRepositoryAsync;
         private readonly IMapper _mapper;
@@ -23,7 +23,7 @@ namespace STgenetics.Farm.Application.Features.Animals.Queries.GetAnimals
             _animalsRepositoryAsync = animalsRepositoryAsync;
             _mapper = mapper;
         }
-        public async Task<PagedResponse<AnimalResponse>> Handle(GetAnimalsQuery request, CancellationToken cancellationToken)
+        public async Task<PagedList<AnimalResponse>> Handle(GetAnimalsQuery request, CancellationToken cancellationToken)
         {
             var animals = await _animalsRepositoryAsync.GetPagedReponseAsync(request.PageNumber, request.PageSize);
 
@@ -34,7 +34,7 @@ namespace STgenetics.Farm.Application.Features.Animals.Queries.GetAnimals
 
             var animalsResponse = _mapper.Map<List<AnimalResponse>>(animals);
            
-            return new PagedResponse<AnimalResponse>(animalsResponse, totalAnimals, request.PageNumber, request.PageSize);
+            return new PagedList<AnimalResponse>(animalsResponse, totalAnimals, request.PageNumber, request.PageSize);
         }
     }
 

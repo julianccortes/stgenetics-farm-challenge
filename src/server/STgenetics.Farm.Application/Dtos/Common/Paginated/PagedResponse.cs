@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace STgenetics.Farm.Application.Dtos.Common.Paginated
-{
+{   
     public class PagedResponse<T>: PagedMetadata
     {
         public List<T> Items { get; set; }

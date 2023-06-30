@@ -8,11 +8,14 @@ var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
+
 builder.Services.AddScoped(sp => new HttpClient
 {
-    BaseAddress = new Uri("https://localhost:5219/api/")
+    BaseAddress = new Uri("http://localhost:5219/api")
 });
+
 
 builder.Services.AddMudServices();
 builder.Services.AddScoped<IAnimalsRepository, AnimalsRepository>();
+
 await builder.Build().RunAsync();
