@@ -28,7 +28,10 @@ builder.Services.AddSwaggerGen(options =>
 
 builder.Services.AddCors(p => p.AddPolicy("corsapp", builder =>
 {
-    builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader().WithExposedHeaders("X-Pagination");
+    builder.WithOrigins("*").
+    AllowAnyMethod().
+    AllowAnyHeader().
+    WithExposedHeaders("X-Pagination");
   
 }));
 
@@ -48,7 +51,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.UseHttpsRedirection();
 app.UseRouting();
 app.UseErrorHandlingMiddleware();
 app.UseCors("corsapp");

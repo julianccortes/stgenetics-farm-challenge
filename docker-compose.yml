@@ -3,7 +3,7 @@ version: '3.4'
 services:
   st-genetics-farm-db:
     container_name: "st-genetics-farm-db"
-    image: "julianccortes/stgenetics-farm-db:1.0"
+    image: "julianccortes/st-genetics-farm-db:1.0"
     environment:
       - "MSSQL_SA_PASSWORD=Qwerty123#"
       - "TZ=America/Bogota"
@@ -12,6 +12,19 @@ services:
       - "21433:1433"
     networks:
       - stgeneticsnet  
+  st-genetics-farm-api:
+    image: julianccortes/st-genetics-farm-api:1.0
+    container_name: "st-genetics-farm-api"
+    ports:
+      - "0.0.0.0:5555:5000"       
+    environment:      
+      - "ConnectionStrings__ApplicationFarmDbConnection=Server=st-genetics-farm-db;Database=Farm;User=sa;Password=Qwerty123#;MultipleActiveResultSets=true;TrustServerCertificate=True" 
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5000
+    depends_on:
+      - st-genetics-farm-db
+    networks:
+      - stgeneticsnet
  
 networks:
   stgeneticsnet:

@@ -23,7 +23,7 @@ namespace STgenetics.Farm.Client.Repository
                 ["pageSize"] = searchParameter.PageSize.ToString()
             };
 
-            using var response = await _client.GetAsync(QueryHelpers.AddQueryString("/api/animals", queryStringParam)); 
+            using var response = await _client.GetAsync(QueryHelpers.AddQueryString("animals", queryStringParam)); 
             response.EnsureSuccessStatusCode();
 
             var stream = await response.Content.ReadAsStreamAsync();
