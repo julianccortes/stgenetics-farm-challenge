@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using STgenetics.Farm.Application.Dtos.Animal.Response;
-using STgenetics.Farm.Application.Dtos.Common.Created;
 using STgenetics.Farm.Application.Dtos.Common.Errors;
 using STgenetics.Farm.Application.Features.Animals.Commands.CreateAnimal;
 using STgenetics.Farm.Application.Features.Animals.Commands.DeleteAnimal;
 using STgenetics.Farm.Application.Features.Animals.Commands.UpdateAnimal;
 using STgenetics.Farm.Application.Features.Animals.Queries.GetAnimalById;
 using STgenetics.Farm.Application.Features.Animals.Queries.GetAnimals;
+using STgenetics.Farm.Application.Features.Animals.Queries.GetAnimalsByCriteria;
 
 namespace STgenetics.Farm.WebApi.Controllers
 {
@@ -43,6 +43,18 @@ namespace STgenetics.Farm.WebApi.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ErrorResponse))]
         public async Task<IActionResult> GetAnimalById(int animalId) => Ok(await Mediator.Send(new GetAnimalByIdQuery { Id = animalId }));
 
+
+        [HttpGet("search-by-criteria")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AnimalResponse))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorResponse))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ErrorResponse))]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ErrorResponse))]
+        public async Task<IActionResult> GetAnimalsByCriteria([FromQuery] GetAnimalsByCriteriaQuery criteria) {
+            var result = await Mediator.Send(criteria);
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(result.MetaData));
+
+            return Ok(result);
+        }
 
         [HttpPut("{animalId}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AnimalResponse))]

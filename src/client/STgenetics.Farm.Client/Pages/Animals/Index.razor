@@ -1,0 +1,27 @@
+﻿@page "/animals/index"
+@using STgenetics.Farm.Client.Models.Request;
+@using STgenetics.Farm.Client.Services;
+@inject AnimalAppState animalAppState;
+
+<h3>Animals shopping</h3>
+
+<section>
+    <SearchCriteria OnClick="SearchAnimals"></SearchCriteria>
+</section>
+<section>
+    <AnimalsGrid></AnimalsGrid>
+</section>
+<section class="mt-4">
+    <ShoppingCart></ShoppingCart>
+</section>
+@code {
+
+    public async Task SearchAnimals(AnimalSearchCriteria criteria)
+    {
+        await InvokeAsync(() =>
+        {
+            animalAppState.NotifyAnimalSearch(criteria);
+            StateHasChanged();
+        });
+    }
+}

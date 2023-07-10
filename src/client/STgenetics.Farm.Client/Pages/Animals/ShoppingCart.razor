@@ -1,0 +1,107 @@
+﻿@using STgenetics.Farm.Client.Models.Response;
+@using STgenetics.Farm.Client.Models;
+@using STgenetics.Farm.Client.Services;
+@inject AnimalAppState animalAppState;
+@implements IDisposable;
+
+@if (animalsGrouper != null && animalsGrouper.Count() > 0)
+{
+    <h3>Shopping Animals Cart </h3>
+    @foreach (var animalBreed in animalsGrouper)
+    {
+
+        <table class="table">
+            <thead class="thead-light">
+                <tr>
+                    <th>Breed</th>
+                    <th>Animals</th>
+                    <th>Total</th>
+                    <th>Total With Discounts</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@animalBreed.Breed</td>
+                    <td>
+                        <table class="table">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Quantity</th>
+                                    <th>Unit price</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var animal in animalBreed.animals)
+                                {
+                                    <tr>
+                                        <td>@animal.Name</td>
+                                        <td><InputNumber @bind-Value=animal.Quantity class="form-control" /></td>
+                                        <td>@animal.Price</td>
+                                        <td>
+                                            <button class="btn btn-danger" type="button" @onclick="(() => RemoveAnimalCart(animal))">
+                                                <span class="fa fa-trash-o"></span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+
+
+
+    }
+}
+
+
+@code {
+    List<AnimalGrouper> animalsGrouper;
+    protected override void OnInitialized()
+    {
+        animalAppState.OnChangeAnimalsCart += BindCartShoppingAnimals;
+        BindCartShoppingAnimals(animalAppState.animalsInCart);
+
+    }
+
+    public void BindCartShoppingAnimals(List<AnimalResponse> cart)
+    {
+        animalsGrouper = GrouperAnimasl(cart);
+        StateHasChanged();
+    }
+
+    private List<AnimalGrouper> GrouperAnimasl(List<AnimalResponse> cart)
+    {
+        cart.OrderBy(x => x.Breed);
+        List<AnimalGrouper> cartAnimalsGrouper = new List<AnimalGrouper>();
+        foreach (var animal in cart)
+        {
+            if (cartAnimalsGrouper.Find(x => x.Breed.Equals(animal.Breed)) == null)
+            {
+                var animalsBreed = cart.Where(x => x.Breed.Equals(animal.Breed)).ToList();
+                cartAnimalsGrouper.Add(new AnimalGrouper()
+                    {
+                        Breed = animal.Breed,
+                        animals = animalsBreed,
+                        TotalAmount = animalsBreed.Sum(x => x.Price)
+                    });
+            }
+
+        }
+
+        return cartAnimalsGrouper;
+
+    }
+
+    public void RemoveAnimalCart(AnimalResponse animal)
+    {
+        animalAppState.RemoveAnimalToCart(animal);
+    }
+
+    public void Dispose() => animalAppState.OnChangeAnimalsCart -= BindCartShoppingAnimals;
+}

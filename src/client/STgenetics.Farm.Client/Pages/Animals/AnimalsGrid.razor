@@ -1,0 +1,173 @@
+﻿@using STgenetics.Farm.Client.Models.Request;
+@using STgenetics.Farm.Client.Models.Response;
+@using STgenetics.Farm.Client.Pages.Commons
+@using STgenetics.Farm.Client.Repository;
+@using STgenetics.Farm.Client.Services;
+
+@inject IAnimalsRepository animalsRepository
+@inject AnimalAppState animalService;
+@inject IJSRuntime JsRuntime
+@implements IDisposable
+
+
+@if (animalsList != null && animalsList.Count() > 0)
+{
+    <h3>Search animals result</h3>
+
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th><span @onclick="@(() => Sort("id"))">Id</span><i class="@(SortIndicator("id"))"></i></th>
+                <th><span @onclick="@(() => Sort("name"))">Name</span><i class="@(SortIndicator("name"))"></i></th>
+                <th><span @onclick="@(() => Sort("breed"))">Breed</span><i class="@(SortIndicator("breed"))"></i></th>
+                <th><span @onclick="@(() => Sort("birthday"))">Birthday (dd/MM/yyyy)</span><i class="@(SortIndicator("birthday"))"></i></th>
+                <th><span @onclick="@(() => Sort("price"))">Price</span><i class="@(SortIndicator("price"))"></i></th>
+                <th><span @onclick="@(() => Sort("isActive"))">Active</span><i class="@(SortIndicator("isActive"))"></i></th>
+                <th>Add</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var animalItem in animalsList)
+            {
+                <tr>
+                    <td>@animalItem.Id</td>
+                    <td>@animalItem.Name</td>
+                    <td>@animalItem.Breed</td>
+                    <td>@animalItem.Birthday.ToString("dd/MM/yyyy")</td>
+                    <td>@animalItem.Price.ToString()</td>
+
+                    @if (animalItem.IsActive)
+                    {
+                        <td>Yes</td>
+                    }
+                    else
+                    {
+                        <td>No</td>
+                    }
+
+                    <td>
+                        <button class="btn btn-success" disabled="@((!animalItem.IsActive) ? "disabled" : null)" type="button" @onclick="(() => AddToShoppingCart(animalItem))">
+                            <span class="fa fa-shopping-cart"></span>
+                        </button>
+                        <button class="btn btn-primary" type="button" @onclick="(() => PrepareEdit(animalItem))">
+                            <span class="fa fa-pencil-square-o"></span>
+                        </button>
+                        <button class="btn btn-danger" type="button" @onclick="(() => DeleteAnimal(animalItem))">
+                            <span class="fa fa-trash-o"></span>
+                        </button>
+                    </td>
+                </tr>
+            }
+            <tr>
+                <td colspan="4" align="right"><b>Total price:</b></td>
+                <td colspan="3" align="left">@animalsList.Sum(x=>x.Price)</td>
+            </tr>
+        </tbody>
+    </table>
+    <div>
+        <Pager CurrentPage=@paginatedList.MetaData.CurrentPage TotalPages=@paginatedList.MetaData.TotalPages OnClick="ChangePage"
+               HasNext=@paginatedList.MetaData.HasNext HasPrevious=@paginatedList.MetaData.HasPrevious TotalItems=@paginatedList.MetaData.TotalCount
+               PageSize="@paginatedList.MetaData.PageSize">
+        </Pager>
+    </div>
+}
+
+@code {
+
+    AnimalSearchCriteria searchCriteria = new AnimalSearchCriteria();
+    PagingResponse<AnimalResponse> paginatedList = new PagingResponse<AnimalResponse>();
+    IEnumerable<AnimalResponse> animalsList = new List<AnimalResponse>();
+    string currentSortField = "id";
+    string currentSortOrder = "asc";
+    int? pageNumber = 1;
+    bool showLoading = false;
+
+    [Parameter]
+    public EventCallback<bool> OnFinishLoadAnimimals { get; set; }
+
+    protected override void OnInitialized()
+    {
+        animalService.OnSearch += GetAnimalsData;
+
+    }
+
+    public async void GetAnimalsData(AnimalSearchCriteria criteria)
+    {
+        if (criteria == null)
+            return;
+
+        searchCriteria = criteria;
+        var result = await animalsRepository.GetAnimalsByCriteria(criteria);
+        paginatedList = result.Item2;
+        animalsList = paginatedList.Items;
+        if (!result.Item1)
+        {
+            await JsRuntime.InvokeVoidAsync("alert", "Animals not found with this criteria");
+            return;
+
+        }
+        StateHasChanged();
+    }
+
+    private async Task Sort(string sortField)
+    {
+        if (sortField.Equals(currentSortField))
+        {
+            currentSortOrder = currentSortOrder.Equals("asc") ? "desc" : "asc";
+        }
+        else
+        {
+            currentSortField = sortField;
+            currentSortOrder = "asc";
+        }
+        searchCriteria.ShortOrder = currentSortOrder;
+        searchCriteria.ShortField = currentSortField;
+        GetAnimalsData(searchCriteria);
+    }
+
+    private string SortIndicator(string sortField)
+    {
+        if (sortField.Equals(currentSortField))
+        {
+            return currentSortOrder.Equals("asc") ? "fa fa-sort-asc" : "fa fa-sort-desc";
+        }
+        return "fa fa-sort-asc";
+    }
+
+
+    public void ChangePage(int newPageNumber)
+    {
+        if (newPageNumber < 1 || newPageNumber > paginatedList.MetaData.TotalPages)
+        {
+            return;
+        }
+        searchCriteria.PageNumber = newPageNumber;
+        GetAnimalsData(searchCriteria);
+        StateHasChanged();
+    }
+
+
+    private async void AddToShoppingCart(AnimalResponse item)
+    {
+        if (animalService.animalsInCart.Find(x => x.Id == item.Id) != null)
+        {
+            await JsRuntime.InvokeVoidAsync("alert", "This animal has been add in the cart");
+            return;
+        }
+
+        animalService.AddAnimalToCart(item);
+    }
+
+    private void DeleteAnimal(AnimalResponse item)
+    {
+
+    }
+
+    private void PrepareEdit(AnimalResponse item)
+    {
+
+    }
+
+
+    public void Dispose() => animalService.OnSearch -= GetAnimalsData;
+}

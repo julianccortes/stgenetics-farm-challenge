@@ -1,0 +1,75 @@
+﻿@using STgenetics.Farm.Client.Models.Request;
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading"><b>Animal search criteria. </b></div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="id">Id:</label>
+                            <InputNumber @bind-Value=criteria.Id class="form-control" id="id"></InputNumber>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="name">Name:</label>
+                            <InputText @bind-Value=criteria.Name class="form-control" id="name"></InputText>
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="breed">Breed:</label>
+                            <InputText @bind-Value=criteria.Breed class="form-control" id="breed"></InputText>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="birthday">Birthday:</label>
+                            <InputDate @bind-Value=criteria.Birthday class="form-control" id="birthday"></InputDate>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="genders">Gender:</label>
+                            <InputSelect @bind-Value="criteria.Gender" class="form-select" id="genders">
+                                <option value="">Select gender ...</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </InputSelect>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="price">Price:</label>
+                            <InputNumber @bind-Value=criteria.Price class="form-control" id="price" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-2 mt-4">
+                        <div class="form-group">
+                            <button class="btn btn-primary" id="btnSearchAnimals" type="button" @onclick="() => OnClick.InvokeAsync(criteria)">
+                                <span class="fa fa-search"></span> Filter
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+@code {
+    AnimalSearchCriteria criteria = new AnimalSearchCriteria();    
+
+    [Parameter]
+    public EventCallback<AnimalSearchCriteria> OnClick { get; set; }
+}

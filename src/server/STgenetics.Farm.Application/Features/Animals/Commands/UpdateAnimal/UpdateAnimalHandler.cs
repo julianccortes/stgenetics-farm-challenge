@@ -3,7 +3,6 @@
     using AutoMapper;
     using MediatR;
     using STgenetics.Farm.Application.Dtos.Animal.Response;
-    using STgenetics.Farm.Application.Dtos.Common.Created;
     using STgenetics.Farm.Application.Exceptions;
     using STgenetics.Farm.Application.Interfaces.Repositories;
     using STgenetics.Farm.Domain.Entities;

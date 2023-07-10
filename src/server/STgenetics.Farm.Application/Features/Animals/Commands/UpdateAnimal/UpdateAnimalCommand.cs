@@ -1,8 +1,6 @@
 ﻿using MediatR;
 using Newtonsoft.Json.Converters;
 using STgenetics.Farm.Application.Dtos.Animal.Response;
-using STgenetics.Farm.Application.Dtos.Common.Created;
-using System.Text.Json.Serialization;
 
 namespace STgenetics.Farm.Application.Features.Animals.Commands.UpdateAnimal
 {

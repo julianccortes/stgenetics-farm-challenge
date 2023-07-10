@@ -17,7 +17,8 @@
             }
         }
 
-        public string? SearchTerm { get; set; }
-        public string OrderBy { get; set; } = "name";
+        public string ShortField { get; set; } = "id";
+
+        public string ShortOrder{ get; set; } = "asc";
     }
 }

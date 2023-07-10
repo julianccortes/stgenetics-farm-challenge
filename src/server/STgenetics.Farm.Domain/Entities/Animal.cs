@@ -9,10 +9,10 @@ namespace STgenetics.Farm.Domain.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        public string? Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
 
-        public string? Breed { get; set; }
+        public string Breed { get; set; } = string.Empty;
 
         public DateOnly Birthday { get; set; }
 
