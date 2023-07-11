@@ -25,7 +25,13 @@ services:
       - st-genetics-farm-db
     networks:
       - stgeneticsnet
- 
+  st-genetics-farm-client:
+    container_name: "st-genetics-farm-client"
+    image: "julianccortes/st-genetics-farm-client:1.0"
+    ports:
+      - "8095:80"
+    networks:
+      - stgeneticsnet   
 networks:
   stgeneticsnet:
     driver: bridge    

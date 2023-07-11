@@ -10,7 +10,7 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddScoped(sp => new HttpClient
 {
-    BaseAddress = new Uri("http://localhost:5000/api/")
+    BaseAddress = new Uri("http://localhost:5555/api/")
 });
 
 builder.Services.AddScoped<IAnimalsRepository, AnimalsRepository>();

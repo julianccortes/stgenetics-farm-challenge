@@ -8,8 +8,34 @@ namespace STgenetics.Farm.Client.Models
         
         public List<AnimalResponse> animals { get; set; } = new List<AnimalResponse>();
 
-        public decimal TotalAmount { get; set; }
-        
-        public decimal TotalAmountWithDiscount { get; set;}
+        public decimal TotalSumPrice
+        {
+            get
+            {
+                return animals.Sum(x => x.TotalPrice);
+            }
+            set { TotalSumPrice = value; }
+        }
+
+
+        public decimal TotalSumPriceWithDiscounts
+        {
+            get
+            {
+                return animals.Sum(x => x.FinalPrice);
+            }
+            set { TotalSumPriceWithDiscounts = value; }
+        }
+
+        public decimal TotalAnimalsQuantity
+        {
+            get
+            {
+                return animals.Sum(x => x.Quantity);
+            }
+            set { TotalAnimalsQuantity = value; }
+        }
+
+
     }
 }

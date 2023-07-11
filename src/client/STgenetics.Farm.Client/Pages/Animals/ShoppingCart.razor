@@ -9,7 +9,6 @@
     <h3>Shopping Animals Cart </h3>
     @foreach (var animalBreed in animalsGrouper)
     {
-
         <table class="table">
             <thead class="thead-light">
                 <tr>
@@ -29,6 +28,10 @@
                                     <th>Name</th>
                                     <th>Quantity</th>
                                     <th>Unit price</th>
+                                    <th>Total price</th>
+                                    <th>Discount percentaje</th>
+                                    <th>Unit price with discount</th>
+                                    <th>Final price</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -39,6 +42,10 @@
                                         <td>@animal.Name</td>
                                         <td><InputNumber @bind-Value=animal.Quantity class="form-control" /></td>
                                         <td>@animal.Price</td>
+                                        <td>@animal.TotalPrice</td>
+                                        <td>@animal.PercentajeDiscount %</td>
+                                        <td>@animal.UnitPriceDiscount</td>
+                                        <td>@animal.FinalPrice </td>
                                         <td>
                                             <button class="btn btn-danger" type="button" @onclick="(() => RemoveAnimalCart(animal))">
                                                 <span class="fa fa-trash-o"></span>
@@ -49,19 +56,84 @@
                             </tbody>
                         </table>
                     </td>
-                    <td></td>
+                    <td valign="middle">@animalBreed.TotalSumPrice</td>
+                    <td valign="middle">@animalBreed.TotalSumPriceWithDiscounts</td>
                 </tr>
             </tbody>
         </table>
 
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Resume shopping cart</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <b>Total: </b> @animalsGrouper.Sum(x=>x.TotalSumPriceWithDiscounts)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <b>Additional discount: </b> @AdditionalDiscountFullPrice %
 
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @if (Freight > 0)
+                        {
+                            <b>Freight: </b>  @Freight.ToString("F2")
+                        }
+                        else
+                        {
+                            <b>Freight: </b>
 
+                            <span>Free</span>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <b>Final total: </b> @FinalTotal
+                    </td>
+                </tr>
+            </tbody>
+
+        </table>
     }
 }
 
 
 @code {
     List<AnimalGrouper> animalsGrouper;
+
+    public decimal AdditionalDiscountFullPrice
+    {
+        get
+        {
+            return animalsGrouper.Sum(x => x.TotalAnimalsQuantity) > 10 ? 3 : 0;
+        }
+    }
+
+    public decimal Freight
+    {
+        get
+        {
+            return animalsGrouper.Sum(x => x.TotalAnimalsQuantity) > 20 ? 0 : 1000;
+        }
+    }
+
+    public decimal FinalTotal
+    {
+        get
+        {
+            var total = animalsGrouper.Sum(x => x.TotalSumPriceWithDiscounts);
+            return (total - ((AdditionalDiscountFullPrice * total / 100))) + Freight;
+        }
+    }
+
     protected override void OnInitialized()
     {
         animalAppState.OnChangeAnimalsCart += BindCartShoppingAnimals;
@@ -87,8 +159,7 @@
                 cartAnimalsGrouper.Add(new AnimalGrouper()
                     {
                         Breed = animal.Breed,
-                        animals = animalsBreed,
-                        TotalAmount = animalsBreed.Sum(x => x.Price)
+                        animals = animalsBreed
                     });
             }
 

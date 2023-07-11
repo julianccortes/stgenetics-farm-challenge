@@ -22,6 +22,7 @@
                 <th><span @onclick="@(() => Sort("breed"))">Breed</span><i class="@(SortIndicator("breed"))"></i></th>
                 <th><span @onclick="@(() => Sort("birthday"))">Birthday (dd/MM/yyyy)</span><i class="@(SortIndicator("birthday"))"></i></th>
                 <th><span @onclick="@(() => Sort("price"))">Price</span><i class="@(SortIndicator("price"))"></i></th>
+                <th><span @onclick="@(() => Sort("gender"))">Gender</span><i class="@(SortIndicator("gender"))"></i></th>
                 <th><span @onclick="@(() => Sort("isActive"))">Active</span><i class="@(SortIndicator("isActive"))"></i></th>
                 <th>Add</th>
             </tr>
@@ -35,6 +36,7 @@
                     <td>@animalItem.Breed</td>
                     <td>@animalItem.Birthday.ToString("dd/MM/yyyy")</td>
                     <td>@animalItem.Price.ToString()</td>
+                    <td>@animalItem.Gender</td>
 
                     @if (animalItem.IsActive)
                     {
@@ -97,7 +99,7 @@
             return;
 
         searchCriteria = criteria;
-        var result = await animalsRepository.GetAnimalsByCriteria(criteria);
+        var result = await animalsRepository.GetAnimalsByCriteria(searchCriteria);
         paginatedList = result.Item2;
         animalsList = paginatedList.Items;
         if (!result.Item1)
