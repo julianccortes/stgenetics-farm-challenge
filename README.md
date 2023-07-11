@@ -1,4 +1,5 @@
-![image](https://github.com/julianccortes/stgenetics-farm-challenge/assets/12352975/54e1fff1-efa3-49ae-9ce0-c46ad5a60a34)# stgenetics-farm-challenge
+## stgenetics-farm-challenge
+
 Technical challenge for Frontend developer
 
 ## Technologies
