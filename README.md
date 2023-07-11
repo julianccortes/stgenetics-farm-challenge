@@ -1,4 +1,4 @@
-# stgenetics-farm-challenge
+![image](https://github.com/julianccortes/stgenetics-farm-challenge/assets/12352975/54e1fff1-efa3-49ae-9ce0-c46ad5a60a34)# stgenetics-farm-challenge
 Technical challenge for Frontend developer
 
 ## Technologies
@@ -36,6 +36,9 @@ For this run the next command:
 ```
 docker compose -f docker-compose.yml up
 ```
+If you want use Docker Desktop, you can look containers startup as next this picture:
+![image](https://github.com/julianccortes/stgenetics-farm-challenge/assets/12352975/e559a36c-b73b-43c1-b80e-09288f1a8006)
+
 When docker compose has been succesfully up, you can browse to swagger api, that contain the api detail from each endpoint.
 
 http://localhost:5555/swagger/index.html
