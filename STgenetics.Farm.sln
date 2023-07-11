@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{9AF22CF4-6CDF-46F7-B1D1-1070A09AB099}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "client", "client", "{EAE230B1-933B-4583-9EB5-05065B7A151B}"
+	ProjectSection(SolutionItems) = preProject
+		src\client\STgenetics.Farm.Client\Dockerfile = src\client\STgenetics.Farm.Client\Dockerfile
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "server", "server", "{B21FD52F-A8A5-4FA2-ADF4-8E40086E133A}"
 EndProject
@@ -17,7 +20,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "STgenetics.Farm.WebApi", "s
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "STgenetics.Farm.Application", "src\server\STgenetics.Farm.Application\STgenetics.Farm.Application.csproj", "{4CABFDA1-9183-4A80-9339-34BB64B9284F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "STgenetics.Farm.Client", "src\client\STgenetics.Farm.Client\STgenetics.Farm.Client.csproj", "{569CDE1F-846C-4262-9623-8388AF3B7BD4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "STgenetics.Farm.Client", "src\client\STgenetics.Farm.Client\STgenetics.Farm.Client.csproj", "{569CDE1F-846C-4262-9623-8388AF3B7BD4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
